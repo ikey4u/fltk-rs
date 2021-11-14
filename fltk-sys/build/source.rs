@@ -133,6 +133,11 @@ pub fn build(manifest_dir: &Path, target_triple: &str, out_dir: &Path) {
                 dst.define("OPTION_USE_PANGO", "OFF");
             } else {
                 dst.define("OPTION_USE_PANGO", "ON");
+                Command::new("git")
+                    .args(&["apply", "../pango.patch"])
+                    .current_dir(manifest_dir.join("cfltk").join("fltk"))
+                    .status()
+                    .expect("Git is needed to retrieve the fltk source files!");
             }
         }
 
